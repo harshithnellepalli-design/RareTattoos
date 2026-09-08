@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Rare Tattoo Studio — Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head>
+<body><div class="admin-wrap">
+<header class="admin-header"><a class="brand" href="index.html"><img src="assets/rare-tattoos-logo.jpg"><span>RARE TATTOO STUDIO · ADMIN</span></a><a class="btn btn-ghost" href="index.html">View Website</a></header>
+<main class="admin-main" id="adminApp">
+<div id="login" class="login-box"><img src="assets/rare-tattoos-logo.jpg"><h1>Admin Login</h1><form id="loginForm" class="admin-form"><label>Username<input id="username" required value="admin"></label><label>Password<input id="password" required type="password" placeholder="admin123"></label><button class="btn btn-primary">Login</button><small style="color:#777">Demo login: admin / admin123</small></form></div>
+<div id="dashboard" class="hidden">
+<div class="section-head"><div><p class="eyebrow">STUDIO CONTROL</p><h2>Admin dashboard</h2></div><button class="btn btn-primary" onclick="openDesign()">+ Add Design</button></div>
+<div class="admin-grid"><div class="stat"><small>Total bookings</small><strong id="totalBookings">0</strong></div><div class="stat"><small>Pending</small><strong id="pendingBookings">0</strong></div><div class="stat"><small>Confirmed</small><strong id="confirmedBookings">0</strong></div><div class="stat"><small>Designs</small><strong id="designCount">0</strong></div></div>
+<section class="admin-panel"><div class="panel-head"><h2>Appointments</h2><button class="mini" onclick="clearBookings()">Clear all</button></div><div class="table-wrap"><table class="admin-table"><thead><tr><th>Customer</th><th>Tattoo</th><th>Date / Time</th><th>Contact</th><th>Status</th><th>Action</th></tr></thead><tbody id="bookingRows"></tbody></table></div></section>
+<section class="admin-panel"><div class="panel-head"><h2>Tattoo designs & prices</h2><button class="mini" onclick="openDesign()">+ Add</button></div><div class="table-wrap"><table class="admin-table"><thead><tr><th>Name</th><th>Style</th><th>Price</th><th>Description</th><th>Action</th></tr></thead><tbody id="designRows"></tbody></table></div></section>
+</div></main></div>
+<div class="modal" id="designModal"><div class="modal-box"><button class="modal-close" onclick="closeDesign()">×</button><h2 id="modalTitle">Add tattoo design</h2><form class="admin-form" id="designForm"><input type="hidden" id="designId"><label>Design name<input id="designName" required></label><div class="form-row"><label>Style<select id="designStyle"><option>Black & Grey</option><option>Realism</option><option>Fine Line</option><option>Custom</option></select></label><label>Starting price<input id="designPrice" type="number" min="0" required></label></div><label>Description<textarea id="designDesc" rows="3"></textarea></label><button class="btn btn-primary">Save Design</button></form></div></div>
+<script>
+const defaultDesigns = [
+  {"id":1,"name":"Black & Grey Lion","style":"Black & Grey","price":5000,"description":"Bold shaded realism."},
+  {"id":2,"name":"Fine Line Rose","style":"Fine Line","price":2500,"description":"Minimal botanical detail."},
+  {"id":3,"name":"Custom Raven","style":"Custom","price":6000,"description":"Dark custom composition."},
+  {"id":4,"name":"Realism Portrait","style":"Realism","price":8000,"description":"Detailed portrait work."},
+  {"id":5,"name":"Geometric Wolf","style":"Custom","price":4500,"description":"Sharp geometric blackwork."},
+  {"id":6,"name":"Minimal Symbol","style":"Fine Line","price":1800,"description":"Small clean-line tattoo."}
+];
+function D(){return JSON.parse(localStorage.getItem("rare_designs")||"null")||defaultDesigns}
+function B(){return JSON.parse(localStorage.getItem("rare_bookings")||"[]")}
+function saveD(x){localStorage.setItem("rare_designs",JSON.stringify(x))}
+function money(n){return "₹"+Number(n).toLocaleString("en-IN")}
+document.getElementById("loginForm").addEventListener("submit",e=>{e.preventDefault();if(document.getElementById("username").value==="admin"&&document.getElementById("password").value==="admin123"){sessionStorage.setItem("rare_admin","1");show()}else alert("Invalid login")});
+function show(){document.getElementById("login").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");render()}
+function render(){const b=B(),d=D();document.getElementById("totalBookings").textContent=b.length;document.getElementById("pendingBookings").textContent=b.filter(x=>x.status==="Pending").length;document.getElementById("confirmedBookings").textContent=b.filter(x=>x.status==="Confirmed").length;document.getElementById("designCount").textContent=d.length;
+document.getElementById("bookingRows").innerHTML=b.length?b.map(x=>`<tr><td><strong>${x.name}</strong><br><span style="color:#777">${x.email||""}</span></td><td>${x.style||"Custom"}<br><span style="color:#777">${x.placement||""} ${x.size||""}</span></td><td>${x.date}<br>${x.time}</td><td>${x.phone}</td><td><span class="status">${x.status}</span></td><td><div class="admin-actions"><button class="mini" onclick="setStatus(${x.id},'Confirmed')">Confirm</button><button class="mini" onclick="setStatus(${x.id},'Completed')">Done</button><button class="mini" onclick="setStatus(${x.id},'Cancelled')">Cancel</button></div></td></tr>`).join(""):`<tr><td colspan="6" style="text-align:center;color:#777;padding:40px">No bookings yet.</td></tr>`;
+document.getElementById("designRows").innerHTML=d.map(x=>`<tr><td><strong>${x.name}</strong></td><td>${x.style}</td><td>${money(x.price)}+</td><td>${x.description||""}</td><td><div class="admin-actions"><button class="mini" onclick="openDesign(${x.id})">Edit</button><button class="mini" onclick="deleteDesign(${x.id})">Delete</button></div></td></tr>`).join("")}
+function setStatus(id,status){const b=B();const x=b.find(x=>x.id===id);if(x){x.status=status;localStorage.setItem("rare_bookings",JSON.stringify(b));render()}}
+function clearBookings(){if(confirm("Delete all bookings?")){localStorage.removeItem("rare_bookings");render()}}
+function openDesign(id){const d=D();const x=d.find(x=>x.id===id);document.getElementById("designModal").classList.add("open");document.getElementById("modalTitle").textContent=x?"Edit tattoo design":"Add tattoo design";document.getElementById("designId").value=x?.id||"";document.getElementById("designName").value=x?.name||"";document.getElementById("designStyle").value=x?.style||"Black & Grey";document.getElementById("designPrice").value=x?.price||"";document.getElementById("designDesc").value=x?.description||""}
+function closeDesign(){document.getElementById("designModal").classList.remove("open")}
+document.getElementById("designForm").addEventListener("submit",e=>{e.preventDefault();let d=D();const id=document.getElementById("designId").value;const x={id:id?Number(id):Date.now(),name:document.getElementById("designName").value,style:document.getElementById("designStyle").value,price:Number(document.getElementById("designPrice").value),description:document.getElementById("designDesc").value};if(id)d=d.map(v=>v.id===Number(id)?x:v);else d.unshift(x);saveD(d);closeDesign();render()});
+function deleteDesign(id){if(confirm("Delete this design?")){saveD(D().filter(x=>x.id!==id));render()}}
+if(sessionStorage.getItem("rare_admin")==="1")show();
+</script></body></html>

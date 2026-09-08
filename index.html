@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rare Tattoo Studio</title>
+  <meta name="description" content="Rare Tattoo Studio — custom tattoos, fine line, realism and blackwork. Book your appointment." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home">
+      <img src="assets/rare-tattoos-logo.jpg" alt="Rare Tattoo Studio logo">
+      <span>RARE TATTOO STUDIO</span>
+    </a>
+    <nav>
+      <a href="#work">Our Work</a>
+      <a href="#styles">Styles</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a class="nav-cta" href="#booking">Book Now</a>
+    </nav>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <p class="eyebrow">CUSTOM TATTOO STUDIO</p>
+        <h1>Ink that feels<br><em>uniquely yours.</em></h1>
+        <p class="hero-copy">Custom tattoos crafted with precision, character and an obsession with detail.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#booking">Book an Appointment</a>
+          <a class="btn btn-ghost" href="#work">Explore Our Work</a>
+        </div>
+      </div>
+      <div class="hero-mark">
+        <img src="assets/rare-tattoos-logo.jpg" alt="Rare Tattoo Studio">
+      </div>
+    </section>
+
+    <section id="work" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">THE PORTFOLIO</p>
+          <h2>Recent work</h2>
+        </div>
+        <p>Replace these demo cards with your actual tattoo photos from the admin panel.</p>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section id="styles" class="section dark-section">
+      <div class="section-head center">
+        <p class="eyebrow">FIND YOUR STYLE</p>
+        <h2>What we create</h2>
+      </div>
+      <div class="style-grid">
+        <article><span>01</span><h3>Black & Grey</h3><p>Depth, contrast and realistic shading.</p></article>
+        <article><span>02</span><h3>Realism</h3><p>Portraits, animals and highly detailed pieces.</p></article>
+        <article><span>03</span><h3>Fine Line</h3><p>Clean, delicate and minimal designs.</p></article>
+        <article><span>04</span><h3>Custom</h3><p>A one-of-one design built around your idea.</p></article>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">TRANSPARENT PRICING</p>
+          <h2>Starting prices</h2>
+        </div>
+        <p>Prices can be changed anytime from the admin dashboard.</p>
+      </div>
+      <div class="price-grid" id="prices"></div>
+    </section>
+
+    <section id="booking" class="booking-section">
+      <div class="booking-copy">
+        <p class="eyebrow">LET'S MAKE IT RARE</p>
+        <h2>Book your session.</h2>
+        <p>Tell us what you have in mind. We'll review your request and confirm the appointment.</p>
+        <div class="booking-note">
+          <strong>Tip</strong>
+          <span>For custom work, add your preferred placement, approximate size and a reference image if available.</span>
+        </div>
+      </div>
+      <form id="bookingForm" class="booking-form">
+        <div class="form-row">
+          <label>Full name<input required name="name" placeholder="Your name"></label>
+          <label>Phone<input required name="phone" placeholder="+91 98765 43210"></label>
+        </div>
+        <div class="form-row">
+          <label>Email<input type="email" name="email" placeholder="you@example.com"></label>
+          <label>Tattoo style<select name="style" id="bookingStyle"></select></label>
+        </div>
+        <div class="form-row">
+          <label>Preferred date<input required type="date" name="date"></label>
+          <label>Preferred time<input required type="time" name="time"></label>
+        </div>
+        <div class="form-row">
+          <label>Placement<input name="placement" placeholder="Forearm, shoulder, back..."></label>
+          <label>Approx. size<input name="size" placeholder="e.g. 5 inches"></label>
+        </div>
+        <label>Tell us about your tattoo<textarea name="message" rows="4" placeholder="Describe your idea..."></textarea></label>
+        <label>Reference image URL (optional)<input name="reference" placeholder="Paste an image URL if you have one"></label>
+        <button class="btn btn-primary full" type="submit">Send Booking Request</button>
+        <p id="bookingSuccess" class="success" hidden>Booking request received. We'll contact you to confirm the appointment.</p>
+      </form>
+    </section>
+
+    <section id="about" class="section about">
+      <div>
+        <p class="eyebrow">ABOUT RARE</p>
+        <h2>Made with intention.<br>Worn for life.</h2>
+      </div>
+      <p>Rare Tattoo Studio is built around thoughtful design, clean execution and tattoos that still feel right years later. Every appointment starts with your idea and ends with a piece made for you.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand footer-brand"><img src="assets/rare-tattoos-logo.jpg" alt=""><span>RARE TATTOO STUDIO</span></div>
+    <div class="footer-links"><a href="#booking">Book</a><a href="#work">Portfolio</a><a href="admin.html">Admin</a></div>
+    <small>© <span id="year"></span> Rare Tattoo Studio. All rights reserved.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
